@@ -26,6 +26,13 @@ public class RedisApplication {
 				List<String> mget = jedis.mget("users:300:name", "users:300:age", "users:300:email");
 				mget.forEach(System.out::println);
 
+				long counter1 = jedis.incr("counter");
+				System.out.println(counter1);
+				long counter2 = jedis.incrBy("counter", 20);
+				System.out.println(counter2);
+
+				long decr = jedis.decr("counter");
+				System.out.println(decr);
 
 			}
 		}
