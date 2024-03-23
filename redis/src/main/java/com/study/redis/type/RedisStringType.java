@@ -54,9 +54,5 @@ public class RedisStringType implements RedisType {
 		removePipeline.unlink("counter");
 		removePipeline.syncAndReturnAll();
 	}
-
-	// @PostConstruct
-	// public void init() {
-	// 	run();
-	// }
+	
 }
