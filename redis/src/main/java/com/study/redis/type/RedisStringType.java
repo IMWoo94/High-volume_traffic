@@ -2,19 +2,21 @@ package com.study.redis.type;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
 
 @Slf4j
-public class RedisStringType {
+@Component
+@RequiredArgsConstructor
+public class RedisStringType implements RedisType {
 
 	private final Jedis jedis;
 
-	public RedisStringType(Jedis jedis) {
-		this.jedis = jedis;
-	}
-
+	@Override
 	public void run() {
 		Pipeline pipelined = jedis.pipelined();
 		pipelined.set("users:400:email", "greg@gmail.com");
@@ -52,4 +54,9 @@ public class RedisStringType {
 		removePipeline.unlink("counter");
 		removePipeline.syncAndReturnAll();
 	}
+
+	// @PostConstruct
+	// public void init() {
+	// 	run();
+	// }
 }
