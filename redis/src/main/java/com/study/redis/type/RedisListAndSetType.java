@@ -27,10 +27,28 @@ public class RedisListAndSetType implements RedisType {
 		stackRun();
 
 		// queue
+		queueRun();
+
+		// block brpop, blpop
 
 	}
 
-	public void stackRun() {
+	private void queueRun() {
+		jedis.rpush("queue1", "zzzz");
+		jedis.rpush("queue1", "bbbb");
+		jedis.rpush("queue1", "cccc");
+
+		List<String> queue1 = jedis.lrange("queue1", 0, -1);
+		queue1.forEach(log::info);
+
+		long len = jedis.llen("queue1");
+		while (len != 0) {
+			var value = jedis.lpop("queue1");
+			log.info("queue1 lpop {} {}", len--, value);
+		}
+	}
+
+	private void stackRun() {
 		jedis.rpush("stack1", "aaaa");
 		jedis.rpush("stack1", "bbbb");
 		jedis.rpush("stack1", "cccc");
