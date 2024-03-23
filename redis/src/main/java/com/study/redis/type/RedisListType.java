@@ -10,7 +10,7 @@ import redis.clients.jedis.Pipeline;
 
 @Slf4j
 @RequiredArgsConstructor
-public class RedisListAndSetType implements RedisType {
+public class RedisListType implements RedisType {
 
 	private final Jedis jedis;
 
