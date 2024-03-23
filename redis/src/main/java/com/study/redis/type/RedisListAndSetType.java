@@ -30,7 +30,20 @@ public class RedisListAndSetType implements RedisType {
 		queueRun();
 
 		// block brpop, blpop
+		blockRun();
+	}
 
+	private void blockRun() {
+		jedis.rpush("blockQueue", "zzzz");
+		jedis.rpush("blockQueue", "aaaa");
+		jedis.rpush("blockQueue", "bbbb");
+
+		while (true) {
+			List<String> blockQueue = jedis.blpop(10, "queue:blocking");
+			if (blockQueue != null) {
+				blockQueue.forEach(log::info);
+			}
+		}
 	}
 
 	private void queueRun() {
