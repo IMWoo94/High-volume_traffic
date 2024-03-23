@@ -1,6 +1,7 @@
 package com.study.redis.type;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
@@ -43,16 +44,14 @@ public class RedisStringType implements RedisType {
 
 		long decr = jedis.decr("counter");
 		log.info("jedis.decr(\"counter\") {}", decr);
-
-		Pipeline removePipeline = jedis.pipelined();
-		removePipeline.unlink("users:400:email");
-		removePipeline.unlink("users:400:name");
-		removePipeline.unlink("users:400:age");
-		removePipeline.unlink("users:300:email");
-		removePipeline.unlink("users:300:name");
-		removePipeline.unlink("users:300:age");
-		removePipeline.unlink("counter");
-		removePipeline.syncAndReturnAll();
 	}
-	
+
+	@Override
+	public void reset() {
+		Set<String> keys = jedis.keys("*");
+		Pipeline pipelined = jedis.pipelined();
+		keys.forEach(pipelined::unlink);
+		pipelined.syncAndReturnAll();
+	}
+
 }
