@@ -1,7 +1,5 @@
 package com.study.redis;
 
-import java.util.List;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,7 +7,6 @@ import com.study.redis.type.RedisStringType;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.Pipeline;
 
 @SpringBootApplication
 public class RedisApplication {
@@ -17,7 +14,19 @@ public class RedisApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RedisApplication.class, args);
 
-		new RedisStringType();
+		try (JedisPool jedisPool = new JedisPool("127.0.0.1", 6379);) {
+			try (Jedis jedis = jedisPool.getResource();) {
+
+				// redis String type
+				RedisStringType redisStringType = new RedisStringType(jedis);
+				redisStringType.run();
+
+				// redis List ( stack, queue, block )
+				// new RedisListAndSetType(jedis);
+			}
+
+		}
+
 	}
 
 }
