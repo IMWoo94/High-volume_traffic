@@ -4,6 +4,9 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.study.redis.type.RedisListAndSetType;
+import com.study.redis.type.RedisType;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
@@ -29,5 +32,14 @@ public class JedisConfiguration {
 	@Bean
 	public Jedis jedis(JedisPool jedisPool) {
 		return jedisPool.getResource();
+	}
+
+	@Bean
+	public RedisType redisType(Jedis jedis) {
+		// String type
+		// return new RedisStringType(jedis);
+
+		// List type
+		return new RedisListAndSetType(jedis);
 	}
 }

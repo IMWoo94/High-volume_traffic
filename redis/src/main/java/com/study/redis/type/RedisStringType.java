@@ -3,15 +3,12 @@ package com.study.redis.type;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.stereotype.Component;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
 
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class RedisStringType implements RedisType {
 
