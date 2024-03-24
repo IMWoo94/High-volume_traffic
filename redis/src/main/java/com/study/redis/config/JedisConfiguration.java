@@ -4,7 +4,7 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.study.redis.type.RedisSetType;
+import com.study.redis.type.RedisHashType;
 import com.study.redis.type.RedisType;
 
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,10 @@ public class JedisConfiguration {
 		// return new RedisListType(jedis);
 
 		// Set type
-		return new RedisSetType(jedis);
+		// return new RedisSetType(jedis);
+
+		// Hash type
+		return new RedisHashType(jedis);
 	}
 
 }
