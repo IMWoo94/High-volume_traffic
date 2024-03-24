@@ -4,7 +4,7 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.study.redis.type.RedisSortedSetType;
+import com.study.redis.type.RedisGeospatialType;
 import com.study.redis.type.RedisType;
 
 import lombok.RequiredArgsConstructor;
@@ -49,6 +49,10 @@ public class JedisConfiguration {
 		// return new RedisHashType(jedis);
 
 		// Sorted Set type
-		return new RedisSortedSetType(jedis);
+		// return new RedisSortedSetType(jedis);
+
+		// Geospatial Type
+		return new RedisGeospatialType(jedis);
+
 	}
 }
