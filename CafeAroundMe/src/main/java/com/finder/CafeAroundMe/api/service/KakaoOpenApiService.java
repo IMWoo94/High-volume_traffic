@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.finder.CafeAroundMe.api.converter.CafeLocationConverter;
+import com.finder.CafeAroundMe.api.domain.CafeLocation;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,8 +24,9 @@ public class KakaoOpenApiService {
 	private String PREFIX_URL;
 	@Value("${kakao.open-api.location.rest-api}")
 	private String REST_API;
+	private final CafeLocationConverter cafeLocationConverter;
 
-	public ResponseEntity<String> getCafeLocationInfo(int size, int page) {
+	public CafeLocation getCafeLocationInfo(int size, int page) {
 		// http + RESTful API template
 		RestTemplate apiRequest = new RestTemplate();
 
@@ -46,6 +50,6 @@ public class KakaoOpenApiService {
 			httpEntity,
 			String.class);
 
-		return result;
+		return cafeLocationConverter.toEntity(result.getBody());
 	}
 }
