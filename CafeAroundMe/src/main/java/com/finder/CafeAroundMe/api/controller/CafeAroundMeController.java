@@ -78,13 +78,19 @@ public class CafeAroundMeController {
 		// objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		try {
 			CafeLocation cafeLocation = objectMapper.readValue(result.getBody(), CafeLocation.class);
-			log.info("ObjectMapper read : {}", cafeLocation.toString());
+			log.info("ObjectMapper read : {}", cafeLocation);
+
+			String key = "cafeLocation";
+			Pipeline pipelined = jedis.pipelined();
+			cafeLocation.getLocations().forEach(it -> {
+				log.info("locations :{}", it);
+				pipelined.geoadd(key, it.getX(), it.getY(), it.getPlaceName());
+			});
+			pipelined.sync();
+			
 		} catch (JsonProcessingException e) {
 			throw new RuntimeException(e);
 		}
-
-		String key = "cafeLocation";
-		Pipeline pipelined = jedis.pipelined();
 	}
 
 }
