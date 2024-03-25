@@ -5,9 +5,13 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CafeLocation {
 
 	@JsonProperty("documents")
@@ -15,9 +19,4 @@ public class CafeLocation {
 	private Map<String, Object> meta;
 }
 
-@Data
-class Location {
-	private String placeName;
-	private Double x;
-	private Double y;
-}
+
