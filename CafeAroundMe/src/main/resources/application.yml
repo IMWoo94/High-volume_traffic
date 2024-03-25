@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: CafeAroundMe
+  data:
+    redis:
+      client-type: jedis
