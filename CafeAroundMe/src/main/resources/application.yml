@@ -4,3 +4,8 @@ spring:
   data:
     redis:
       client-type: jedis
+kakao:
+  open-api:
+    location:
+      url: https://dapi.kakao.com/v2/local/search/category.json
+      rest-api: KakaoAK 416b63495de71dc7940f60aa2bafdc57
