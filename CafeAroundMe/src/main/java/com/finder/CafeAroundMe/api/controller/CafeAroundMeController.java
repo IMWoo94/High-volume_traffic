@@ -1,5 +1,6 @@
 package com.finder.CafeAroundMe.api.controller;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,8 @@ import com.finder.CafeAroundMe.api.service.CafeAroundMeService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import redis.clients.jedis.args.GeoUnit;
+import redis.clients.jedis.resps.GeoRadiusResponse;
 
 @RestController
 @RequestMapping("/openapi/cam")
@@ -23,7 +26,7 @@ public class CafeAroundMeController {
 
 	// Redis key info get
 	@GetMapping("/findAllKeys")
-	public ResponseEntity<Set<String>> getAllKeys() {
+	public ResponseEntity<Set<String>> findAllKeys() {
 		Set<String> keys = cafeAroundMeService.findAllKeysAndPattern("*");
 		return new ResponseEntity<>(keys, HttpStatus.OK);
 	}
@@ -34,6 +37,18 @@ public class CafeAroundMeController {
 	public void createdLocationInfo() {
 		// 2000m 주변 카페 카테고리 리스트 Redis 등록
 		cafeAroundMeService.createCafeLocationInfo();
+	}
+
+	// Location info get
+	@GetMapping("findByCafeAroundMe")
+	public ResponseEntity<List<GeoRadiusResponse>> findByCafeAroundMe() {
+		List<GeoRadiusResponse> cafeLocation = cafeAroundMeService.findByCafeAroundMe(
+			127.0,
+			37.0,
+			500,
+			GeoUnit.KM
+		);
+		return new ResponseEntity<>(cafeLocation, HttpStatus.OK);
 	}
 
 }
