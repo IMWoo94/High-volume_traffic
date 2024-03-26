@@ -38,7 +38,7 @@ public class KakaoOpenApiService {
 		HttpEntity httpEntity = new HttpEntity(httpHeaders);
 
 		StringBuilder sb = new StringBuilder(PREFIX_URL);
-		sb.append("?").append("category_group_code=CE7").append("&radius=2000");
+		sb.append("?").append("category_group_code=CE7").append("&radius=2000").append("&page=").append(page);
 
 		String url = sb.toString();
 
