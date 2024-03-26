@@ -17,7 +17,7 @@ import redis.clients.jedis.args.GeoUnit;
 import redis.clients.jedis.resps.GeoRadiusResponse;
 
 @RestController
-@RequestMapping("/openapi/cam")
+@RequestMapping("/open-api/cam")
 @Slf4j
 @RequiredArgsConstructor
 public class CafeAroundMeController {
