@@ -17,6 +17,13 @@ public class CafeLocation {
 	@JsonProperty("documents")
 	private List<Location> Locations;
 	private Map<String, Object> meta;
+
+	public boolean isEnd() {
+		if (meta == null) {
+			return true;
+		}
+		return (boolean)meta.getOrDefault("is_end", true);
+	}
 }
 
 
