@@ -8,6 +8,9 @@
 <body>
 <!-- 지도를 표시할 div 입니다 -->
 <div id="map" style="width:100%;height:350px;"></div>
+<div>
+    <button id="findCafeBtn">Cafe</button>
+</div>
 <p><em>지도를 클릭해주세요!</em></p>
 <div id="clickLatlng"></div>
 <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
@@ -69,6 +72,7 @@
     // 지도에 마커를 표시합니다
     marker.setMap(map);
 
+    var latlng;
     // 지도에 클릭 이벤트를 등록합니다
     // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
     kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
@@ -77,7 +81,7 @@
         initMarkers();
 
         // 클릭한 위도, 경도 정보를 가져옵니다
-        var latlng = mouseEvent.latLng;
+        latlng = mouseEvent.latLng;
 
         // 마커 위치를 클릭한 위치로 옮깁니다
         marker.setPosition(latlng);
@@ -98,9 +102,6 @@
                 },
                 success: function () {
                     console.log("주변 cafe 정보 조회 완료")
-                    addMarker(new kakao.maps.LatLng(33.450153139537676, 126.57659012081486));
-                    addMarker(new kakao.maps.LatLng(33.45255037943089, 126.56074613068934));
-                    addMarker(new kakao.maps.LatLng(33.45587140812327, 126.56163289599385));
                 },
                 error: function (error) {
                     console.log("Error")
@@ -108,6 +109,27 @@
             }
         )
 
+    });
+</script>
+<script>
+    var cafeButton = document.getElementById("findCafeBtn");
+    cafeButton.addEventListener("click", function () {
+        const findCafeAroundMeUrl = 'http://localhost:8080/open-api/cam/findByCafeAroundMe';
+        $.ajax({
+                url: findCafeAroundMeUrl,
+                type: "GET",
+                data: {
+                    longitude: latlng.getLng(),
+                    latitude: latlng.getLat()
+                },
+                success: function (data) {
+                    console.log(data)
+                },
+                error: function (error) {
+                    console.log("Error")
+                }
+            }
+        )
     });
 </script>
 </body>

@@ -35,7 +35,7 @@ public class CafeAroundMeService {
 		int page = 1;
 		String key = "cafeLocation";
 		beforeCreatedLocation(key);
-		
+
 		Pipeline pipelined = jedis.pipelined();
 		do {
 			cafeLocation = findByCafeLocation(location, page++);
@@ -59,14 +59,14 @@ public class CafeAroundMeService {
 	}
 
 	public List<GeoRadiusResponse> findByCafeAroundMe(
-		double longitude,
-		double latitude,
-		double radius,
-		GeoUnit unit
+		RequestLocation location
 	) {
 		GeoSearchParam geoSearchParam = new GeoSearchParam()
-			.fromLonLat(new GeoCoordinate(longitude, latitude))
-			.byRadius(radius, unit)
+			.fromLonLat(new GeoCoordinate(Double.parseDouble(location.getLongitude()),
+				Double.parseDouble(location.getLatitude())))
+			.byRadius(2000, GeoUnit.M)
+			.withCoord()
+			.withDist()
 			.sortingOrder(SortingOrder.ASC);
 		return jedis.geosearch("cafeLocation", geoSearchParam);
 	}

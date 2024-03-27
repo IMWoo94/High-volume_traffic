@@ -15,7 +15,6 @@ import com.finder.CafeAroundMe.api.service.CafeAroundMeService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import redis.clients.jedis.args.GeoUnit;
 import redis.clients.jedis.resps.GeoRadiusResponse;
 
 @RestController
@@ -43,13 +42,8 @@ public class CafeAroundMeController {
 
 	// Location info get
 	@GetMapping("findByCafeAroundMe")
-	public ResponseEntity<List<GeoRadiusResponse>> findByCafeAroundMe() {
-		List<GeoRadiusResponse> cafeLocation = cafeAroundMeService.findByCafeAroundMe(
-			127.0,
-			37.0,
-			500,
-			GeoUnit.KM
-		);
+	public ResponseEntity<List<GeoRadiusResponse>> findByCafeAroundMe(@LongLatLocation RequestLocation location) {
+		List<GeoRadiusResponse> cafeLocation = cafeAroundMeService.findByCafeAroundMe(location);
 		return new ResponseEntity<>(cafeLocation, HttpStatus.OK);
 	}
 
