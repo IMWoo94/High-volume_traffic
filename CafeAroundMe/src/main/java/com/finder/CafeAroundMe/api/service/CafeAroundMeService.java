@@ -34,6 +34,8 @@ public class CafeAroundMeService {
 		CafeLocation cafeLocation;
 		int page = 1;
 		String key = "cafeLocation";
+		beforeCreatedLocation(key);
+		
 		Pipeline pipelined = jedis.pipelined();
 		do {
 			cafeLocation = findByCafeLocation(location, page++);
@@ -49,6 +51,11 @@ public class CafeAroundMeService {
 		// category_group_code=CE7 [ 카페 ]
 		// 2000m 주변 카페 카테고리 리스트 API 호출
 		return kakaoOpenApiService.getCafeLocationInfo(location, 15, page);
+	}
+
+	private void beforeCreatedLocation(String key) {
+		// 기존의 등록된 내용 제거
+		jedis.unlink(key);
 	}
 
 	public List<GeoRadiusResponse> findByCafeAroundMe(
