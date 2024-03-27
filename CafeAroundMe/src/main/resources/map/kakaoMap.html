@@ -46,21 +46,25 @@
     // 주변 카페 마커 add
     function addMarker(position) {
 
-        // 마커를 생성합니다
-        var marker = new kakao.maps.Marker({
-            position: position,
-            image: markerImage // 마커이미지 설정
-        });
+        for (var i = 0; i < position.length; i++) {
+            var lat = position[i].coordinate.latitude;
+            var lng = position[i].coordinate.longitude;
+            var marker = new kakao.maps.Marker({
+                position: new kakao.maps.LatLng(lat, lng),
+                title: position[i].member_by_string,
+                image: markerImage // 마커이미지 설정
+            })
 
-        // 생성된 마커를 배열에 추가합니다
-        markers.push(marker);
+            // 생성된 마커를 배열에 추가합니다
+            markers.push(marker);
+        }
+
     }
 
     // 마커 배열 init
     function initMarkers() {
-        for (var i = 0; i < markers.length; i++) {
-            markers.pop().setMap(null);
-        }
+        hideMarkers();
+        markers = [];
     }
 
     // 마커 배열 보이기, 숨기기 set
@@ -151,6 +155,7 @@
                 },
                 success: function (data) {
                     console.log(data)
+                    addMarker(data)
                 },
                 error: function (error) {
                     console.log("Error")
