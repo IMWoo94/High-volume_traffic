@@ -50,6 +50,10 @@
         $.ajax({
                 url: cafeAroundMeUrl,
                 type: "GET",
+                data: {
+                    longitude: latlng.getLng(),
+                    latitude: latlng.getLat()
+                },
                 success: function () {
                     console.log("주변 cafe 정보 조회 완료")
                 },
