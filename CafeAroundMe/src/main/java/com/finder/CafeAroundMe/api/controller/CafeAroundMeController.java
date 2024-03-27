@@ -37,9 +37,8 @@ public class CafeAroundMeController {
 	// TODO 접속자 주소 or 경도/위도 기반으로 주위 리스트 조회
 	@GetMapping("/created/cafeLocation")
 	public void createdLocationInfo(@LongLatLocation RequestLocation location) {
-		log.info(location.toString());
-		// 2000m 주변 카페 카테고리 리스트 Redis 등록
-		cafeAroundMeService.createCafeLocationInfo();
+		// 선택 위치 2000m 주변 카페 카테고리 리스트 Redis 등록
+		cafeAroundMeService.createCafeLocationInfo(location);
 	}
 
 	// Location info get

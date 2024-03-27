@@ -30,8 +30,8 @@ public class LongLatLocationResolver implements HandlerMethodArgumentResolver {
 
 		HttpServletRequest request = (HttpServletRequest)webRequest.getNativeRequest();
 
-		double longitude = Double.parseDouble(request.getParameter("longitude"));
-		double latitude = Double.parseDouble(request.getParameter("latitude"));
+		String longitude = request.getParameter("longitude");
+		String latitude = request.getParameter("latitude");
 
 		return new RequestLocation(longitude, latitude);
 	}

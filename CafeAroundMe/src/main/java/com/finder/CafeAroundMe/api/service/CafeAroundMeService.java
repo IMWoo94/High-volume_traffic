@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 
 import com.finder.CafeAroundMe.api.domain.CafeLocation;
+import com.finder.CafeAroundMe.api.domain.RequestLocation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,13 +30,13 @@ public class CafeAroundMeService {
 		return jedis.keys(pattern);
 	}
 
-	public void createCafeLocationInfo() {
+	public void createCafeLocationInfo(RequestLocation location) {
 		CafeLocation cafeLocation;
 		int page = 1;
 		String key = "cafeLocation";
 		Pipeline pipelined = jedis.pipelined();
 		do {
-			cafeLocation = findByCafeLocation(page++);
+			cafeLocation = findByCafeLocation(location, page++);
 			cafeLocation.getLocations().forEach(it -> {
 				log.info("locations :{}", it);
 				pipelined.geoadd(key, it.getX(), it.getY(), it.getPlaceName());
@@ -44,10 +45,10 @@ public class CafeAroundMeService {
 		} while (!cafeLocation.isEnd());
 	}
 
-	private CafeLocation findByCafeLocation(int page) {
+	private CafeLocation findByCafeLocation(RequestLocation location, int page) {
 		// category_group_code=CE7 [ 카페 ]
 		// 2000m 주변 카페 카테고리 리스트 API 호출
-		return kakaoOpenApiService.getCafeLocationInfo(15, page);
+		return kakaoOpenApiService.getCafeLocationInfo(location, 15, page);
 	}
 
 	public List<GeoRadiusResponse> findByCafeAroundMe(

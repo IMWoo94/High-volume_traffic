@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.finder.CafeAroundMe.api.converter.CafeLocationConverter;
 import com.finder.CafeAroundMe.api.domain.CafeLocation;
+import com.finder.CafeAroundMe.api.domain.RequestLocation;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class KakaoOpenApiService {
 	private String REST_API;
 	private final CafeLocationConverter cafeLocationConverter;
 
-	public CafeLocation getCafeLocationInfo(int size, int page) {
+	public CafeLocation getCafeLocationInfo(RequestLocation location, int size, int page) {
 		// http + RESTful API template
 		RestTemplate apiRequest = new RestTemplate();
 
@@ -38,7 +39,13 @@ public class KakaoOpenApiService {
 		HttpEntity httpEntity = new HttpEntity(httpHeaders);
 
 		StringBuilder sb = new StringBuilder(PREFIX_URL);
-		sb.append("?").append("category_group_code=CE7").append("&radius=2000").append("&page=").append(page);
+		sb.append("?")
+			.append("category_group_code=CE7")
+			.append("&x=").append(location.getLongitude())
+			.append("&y=").append(location.getLatitude())
+			.append("&radius=2000")
+			.append("&page=").append(page)
+			.append("&sort=distance");
 
 		String url = sb.toString();
 
