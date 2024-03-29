@@ -8,6 +8,7 @@ import org.redisson.api.RKeys;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 
+import com.finder.CafeAroundMe.api.common.annotation.DistributedLock;
 import com.finder.CafeAroundMe.api.domain.CafeLocation;
 import com.finder.CafeAroundMe.api.domain.RequestLocation;
 
@@ -30,6 +31,7 @@ public class CafeAroundMeService {
 	private final KakaoOpenApiService kakaoOpenApiService;
 	private final RedissonClient redissonClient;
 
+	@DistributedLock(key = "redisLock")
 	public Set<String> findAllKeysAndPattern(String pattern) {
 		return jedis.keys(pattern);
 	}
@@ -41,6 +43,7 @@ public class CafeAroundMeService {
 		RKeys keys = redissonClient.getKeys();
 		Iterable<String> iter = keys.getKeys();
 		iter.forEach(result::add);
+
 		return result;
 	}
 

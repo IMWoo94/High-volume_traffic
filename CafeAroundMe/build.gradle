@@ -29,6 +29,8 @@ dependencies {
     implementation 'redis.clients:jedis:5.1.2'
     // redis 분산락 기법을 사용하기 위해서 Redisson 적용
     implementation "org.redisson:redisson-spring-boot-starter:3.27.2"
+    // Redisson lock AOP 처리 위해 의존성 등록
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'

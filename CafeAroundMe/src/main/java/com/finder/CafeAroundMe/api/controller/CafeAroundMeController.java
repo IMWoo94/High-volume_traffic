@@ -2,7 +2,6 @@ package com.finder.CafeAroundMe.api.controller;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +28,8 @@ public class CafeAroundMeController {
 	// Redis key info get
 	@GetMapping("/findAllKeys")
 	public ResponseEntity<Set<String>> findAllKeys() {
-		String uuid = UUID.randomUUID().toString();
-		log.info("findAllKeys Request uuid :{}", uuid);
-		// Set<String> keys = cafeAroundMeService.findAllKeysAndPattern("*");
-		Set<String> keys = cafeAroundMeService.findAllRedissonKeysAndPattern("*");
-		log.info("findAllKeys end uuid :{}", uuid);
+		Set<String> keys = cafeAroundMeService.findAllKeysAndPattern("*");
+		// Set<String> keys = cafeAroundMeService.findAllRedissonKeysAndPattern("*");
 		return new ResponseEntity<>(keys, HttpStatus.OK);
 	}
 
