@@ -27,6 +27,8 @@ dependencies {
     // https://mvnrepository.com/artifact/redis.clients/jedis
     // redis 접근 시 Lettuce 를 기본으로 적용 jedis 방식으로 변경하기 위해 jedis client 의존성 등록
     implementation 'redis.clients:jedis:5.1.2'
+    // redis 분산락 기법을 사용하기 위해서 Redisson 적용
+    implementation "org.redisson:redisson-spring-boot-starter:3.27.2"
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'

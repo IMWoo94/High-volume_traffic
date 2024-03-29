@@ -1,8 +1,11 @@
 package com.finder.CafeAroundMe.api.service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.redisson.api.RKeys;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 
 import com.finder.CafeAroundMe.api.domain.CafeLocation;
@@ -25,9 +28,20 @@ public class CafeAroundMeService {
 
 	private final Jedis jedis;
 	private final KakaoOpenApiService kakaoOpenApiService;
+	private final RedissonClient redissonClient;
 
 	public Set<String> findAllKeysAndPattern(String pattern) {
 		return jedis.keys(pattern);
+	}
+
+	public Set<String> findAllRedissonKeysAndPattern(String pattern) {
+		// Redisson 을 이용한 분산락 기법의 key 조회
+		Set<String> result = new HashSet<>();
+
+		RKeys keys = redissonClient.getKeys();
+		Iterable<String> iter = keys.getKeys();
+		iter.forEach(result::add);
+		return result;
 	}
 
 	public void createCafeLocationInfo(RequestLocation location) {
