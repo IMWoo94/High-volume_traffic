@@ -4,6 +4,8 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.study.redis.transactions.RTransaction;
+import com.study.redis.transactions.RedisTransaction;
 import com.study.redis.type.RedisBitmapType;
 import com.study.redis.type.RedisType;
 
@@ -56,5 +58,10 @@ public class JedisConfiguration {
 
 		// Bitmap type
 		return new RedisBitmapType(jedis);
+	}
+
+	@Bean
+	public RTransaction rTransaction(Jedis jedis) {
+		return new RedisTransaction(jedis);
 	}
 }
