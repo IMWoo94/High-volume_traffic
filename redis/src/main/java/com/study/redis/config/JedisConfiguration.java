@@ -27,7 +27,7 @@ public class JedisConfiguration {
 		config.setJmxEnabled(false);
 		String jmxNamePrefix = config.getJmxNamePrefix();
 		log.info("JedisConfiguration {}", jmxNamePrefix);
-		JedisPool jedisPool = new JedisPool(config, "127.0.0.1", 6379);
+		JedisPool jedisPool = new JedisPool(config, "127.0.0.1", 6379, 5000);
 		return jedisPool;
 	}
 
